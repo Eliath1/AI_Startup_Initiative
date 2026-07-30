@@ -1,0 +1,23 @@
+@prefix aero: <http://example.org> .
+@prefix rdfs: <http://w3.org> .
+
+# Hardware Layer
+aero:FlightControlPCB a aero:HardwareComponent ;
+    rdfs:label "Flight Control Computer PCB Layout" ;
+    aero:requiresCompliance aero:DO254 ;
+    aero:allocatedToTask aero:Task_PCB_Design .
+
+# Software Layer
+aero:AutopilotGuidanceCore a aero:SoftwareComponent ;
+    rdfs:label "Autopilot Guidance & Control Laws" ;
+    aero:requiresCompliance aero:DO178C ;
+    aero:allocatedToTask aero:Task_SW_Review .
+
+# Project Management Layer
+aero:Task_PCB_Design a aero:ProjectTask ;
+    rdfs:label "Complete Schematic and Routing Layout" ;
+    aero:taskStatus "In Progress" .
+
+aero:Task_SW_Review a aero:ProjectTask ;
+    rdfs:label "Conduct Peer Review of Control Loop Software" ;
+    aero:taskStatus "Blocked" .

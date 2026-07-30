@@ -1,0 +1,21 @@
+@prefix rdf: <http://w3.org> .
+@prefix rdfs: <http://w3.org> .
+@prefix owl: <http://w3.org> .
+@prefix aero: <http://example.org> .
+
+# Core Classes
+aero:AerospaceElement a owl:Class .
+aero:HardwareComponent rdfs:subClassOf aero:AerospaceElement .
+aero:SoftwareComponent rdfs:subClassOf aero:AerospaceElement .
+aero:ProjectTask a owl:Class .
+aero:Milestone a owl:Class .
+
+# Compliance Requirements
+aero:ComplianceStandard a owl:Class .
+aero:DO254 a aero:ComplianceStandard ; rdfs:label "DO-254 (Hardware Design Assurance)" .
+aero:DO178C a aero:ComplianceStandard ; rdfs:label "DO-178C (Software Considerations)" .
+
+# Properties
+aero:allocatedToTask a rdf:Property ; rdfs:domain aero:AerospaceElement ; rdfs:range aero:ProjectTask .
+aero:requiresCompliance a rdf:Property ; rdfs:domain aero:AerospaceElement ; rdfs:range aero:ComplianceStandard .
+aero:taskStatus a rdf:Property ; rdfs:domain aero:ProjectTask ; rdfs:range rdfs:Literal .
