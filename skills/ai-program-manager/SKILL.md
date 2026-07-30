@@ -135,11 +135,15 @@ Corrective action: [specific step] — Owner: [role] — Deadline: [timeframe]
 
 ## Part VII — Executive Intelligence & Reporting
 
-*Full framework — ROI modeling, cognitive-load rules, complete report template — in
-`references/executive-intelligence.md`. Load it when preparing an actual executive summary.*
+*Choose template by audience:*
+
+- **C-suite / VP (1–2 pages):** `references/c-suite-executive-brief.md` — Achievements, Business
+  Value, Risk & Mitigation, Decisions Required; PDF styling in `references/executive-brief-pdf.css`
+- **Board / full portfolio:** `references/executive-intelligence.md` — 8-section ROI and governance pack
 
 Every executive summary answers four unstated questions: **Am I going to be surprised? Is the
-money working? Do I need to do anything? Is the team in control?**
+money working? Do I need to do anything? Is the team in control?** The C-suite brief maps them
+to sections 3, 2, 4, and 1 respectively.
 
 ---
 
@@ -201,8 +205,10 @@ case entered Stage 2 without passing Stage 1 · at least one quarterly portfolio
 
 Load only when depth is needed — this keeps the base skill's token footprint small:
 
+- `references/c-suite-executive-brief.md` — **VP/C-staff 1–2 page brief** (four-section structure, PDF rules)
+- `references/executive-brief-pdf.css` — print stylesheet for executive brief PDFs
 - `references/executive-intelligence.md` — full executive communication framework, ROI modeling,
-  board-level reporting, complete report template, scenario narrative examples
+  board-level reporting, complete 8-section template, scenario narrative examples
 - `references/legal-compliance-master.md` — complete compliance stack (data protection, AI
   regulatory frameworks, InfoSec standards, encryption, IAM, AI-specific security controls)
 - `references/governance-lifecycle.md` — AI lifecycle stage definitions, control checkpoints

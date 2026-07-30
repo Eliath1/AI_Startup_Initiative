@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{DASHBOARD_TITLE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root, [data-theme="light"] {
+      --font-sans: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      --color-bg: #f6f7f9;
+      --color-surface: #ffffff;
+      --color-text: #111827;
+      --color-muted: #6b7280;
+      --color-border: #e5e7eb;
+      --color-primary: #2563eb;
+      --color-secondary: #64748b;
+      --color-accent: #0ea5e9;
+      --color-success: #059669;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+      --radius: 10px;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      --space-section: 28px;
+      --space-gutter: 20px;
+      --grid-cols: 12;
+    }
+    [data-theme="dark"] {
+      --color-bg: #0f1419;
+      --color-surface: #1a2332;
+      --color-text: #f3f4f6;
+      --color-muted: #9ca3af;
+      --color-border: #2d3748;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+    .dashboard { max-width: 1400px; margin: 0 auto; padding: 24px var(--space-gutter) 48px; }
+    .dashboard-header {
+      display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: var(--space-section);
+    }
+    .dashboard-header h1 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0 0 4px; font-weight: 700; }
+    .dashboard-header .meta { color: var(--color-muted); font-size: 0.8125rem; }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(var(--grid-cols), 1fr);
+      gap: var(--space-gutter);
+    }
+    .span-12 { grid-column: span 12; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+    @media (max-width: 1024px) {
+      :root { --grid-cols: 6; }
+      .span-3, .span-4 { grid-column: span 3; }
+      .span-6 { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      :root { --grid-cols: 1; }
+      .span-3, .span-4, .span-6, .span-12 { grid-column: span 1; }
+    }
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .card h2 { font-size: 1.125rem; margin: 0 0 12px; font-weight: 600; }
+    .card h3 { font-size: 0.9375rem; margin: 0 0 8px; font-weight: 600; color: var(--color-muted); }
+    .exec-summary { border-left: 4px solid var(--color-success); }
+    .exec-summary .status {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-weight: 600; font-size: 0.875rem; margin-bottom: 8px;
+    }
+    .kpi-card .metric {
+      font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; line-height: 1.1;
+    }
+    .kpi-card .delta { font-size: 0.875rem; font-weight: 600; }
+    .kpi-card .delta--up { color: var(--color-success); }
+    .kpi-card .delta--down { color: var(--color-danger); }
+    .kpi-card .sparkline { height: 32px; margin-top: 12px; opacity: 0.85; }
+    .chart-card__body {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 200px;
+    }
+    .chart-mount { width: 100% !important; height: 100% !important; }
+    .insights ul { margin: 0; padding-left: 1.25rem; }
+    .insights li { margin-bottom: 6px; }
+    .split-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .split-panels { grid-template-columns: 1fr; } }
+    .risk-item, .opp-item { display: flex; gap: 8px; margin-bottom: 8px; font-size: 0.9375rem; }
+    .table-wrap { overflow-x: auto; }
+    table.data-table {
+      width: 100%; border-collapse: collapse; font-size: 0.875rem;
+    }
+    table.data-table th, table.data-table td {
+      padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--color-border);
+    }
+    table.data-table th {
+      position: sticky; top: 0; background: var(--color-surface);
+      font-weight: 600; color: var(--color-muted);
+    }
+    table.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+    .badge--ok { background: #d1fae5; color: #065f46; }
+    [data-theme="dark"] .badge--ok { background: #064e3b; color: #a7f3d0; }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <div>
+        <!-- optional: <img src="{{LOGO_URL}}" alt="{{ORGANIZATION_NAME}}" height="32" /> -->
+        <p class="meta">{{ORGANIZATION_NAME}}</p>
+        <h1>{{DASHBOARD_TITLE}}</h1>
+        <p class="meta">{{PERIOD_LABEL}} · Updated {{LAST_UPDATED_ISO}}</p>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="card exec-summary span-12" aria-labelledby="exec-summary-heading">
+        <div class="status"><span aria-hidden="true">🟢</span> <span id="exec-summary-heading">Executive Summary</span></div>
+        <p><!-- Replace with computed narrative --></p>
+      </section>
+
+      <!-- KPI row: duplicate .kpi-card.span-3 blocks -->
+      <article class="card kpi-card span-3">
+        <h3>Revenue</h3>
+        <div class="metric">$24.8M</div>
+        <div class="delta delta--up" aria-label="Up 12 percent vs prior period">▲ 12%</div>
+        <svg class="sparkline" viewBox="0 0 80 24" aria-hidden="true"><polyline fill="none" stroke="currentColor" stroke-width="2" points="0,20 10,18 20,16 30,14 40,12 50,10 60,8 70,6 80,4"/></svg>
+        <p class="meta">Exceeded target by 8%</p>
+      </article>
+
+      <section class="card chart-card span-6">
+        <h2>Revenue Trend (12 Months)</h2>
+        <div class="chart-card__body">
+          <canvas class="chart-mount" data-chart-id="revenue-trend" data-chart-type="line"
+                  data-chart-engine="chartjs" role="img" aria-label="Revenue trend"></canvas>
+        </div>
+      </section>
+
+      <section class="card insights span-12">
+        <h2>Executive Insights</h2>
+        <ul>
+          <li><!-- Insight --></li>
+        </ul>
+      </section>
+
+      <section class="card span-6">
+        <h2>Top Risks</h2>
+        <div class="risk-item"><span aria-hidden="true">🔴</span><span><!-- Risk --></span></div>
+      </section>
+      <section class="card span-6">
+        <h2>Top Opportunities</h2>
+        <div class="opp-item"><span aria-hidden="true">🟢</span><span><!-- Opportunity --></span></div>
+      </section>
+
+      <section class="card span-12">
+        <h2>Detailed Performance</h2>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Initiative</th>
+                <th scope="col">ROI</th>
+                <th scope="col">Budget</th>
+                <th scope="col">Actual</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><!-- name --></td>
+                <td class="num"><!-- roi --></td>
+                <td class="num"><!-- budget --></td>
+                <td class="num"><!-- actual --></td>
+                <td><span class="badge badge--ok">On track</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- Optional: Chart.js + dashboard-charts adapter per references/chart-library-adapter.md -->
+</body>
+</html>

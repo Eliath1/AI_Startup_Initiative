@@ -60,43 +60,48 @@ than asking — see `connector-readiness-assessor` if the relevant tool isn't ye
 
 ---
 
-## Report Template
+## Report Templates (pick by audience)
+
+| Audience | Template | Max length |
+|----------|----------|------------|
+| **C-suite / VP** | `ai-program-manager/references/c-suite-executive-brief.md` | **1 page** (2 hard cap) |
+| Director / steering (weekly) | Status overview below | 1–2 pages |
+| Board / full portfolio | `executive-intelligence.md` (8-section) | Multi-page deck |
+
+### C-Suite Executive Brief (default when user asks for "executive report")
+
+**Header (only):** `# [Name] — Executive Brief` · `Date` · `Reporting period`  
+**Body (exactly four sections):**
+
+1. **Achievements** — titled items (bold title + 1–2 sentence body each; 3–4 max)
+2. **Business Value & Value Realization** — KPI table first; numbers at a glance; no prose wall
+3. **Risk & Mitigation Summary** — table with mitigation on every row (max 4 risks)
+4. **Decisions Required** — max 3; recommendation, owner, deadline, consequence if delayed
+
+**End of document only:** Audience, sources, method (`## Document metadata`).
+
+**PDF:** use `references/executive-brief-pdf.css` (9pt body, compact tables, 0.55in margins).
+
+Do **not** use Jira issue lists, monthly appendices, or program deep dives in the C-suite brief —
+those belong in the PM/operational pack.
+
+### Director weekly status (when not C-suite)
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [ORGANIZATION_NAME] — Weekly Status | [YYYY-MM-DD] — [ON TRACK / AT RISK / BLOCKED]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-HEADLINE
-[One sentence — the single most important thing this week]
+HEADLINE — [One sentence]
 
-1. STATUS OVERVIEW                                    🟢/🟡/🔴
-   On-Track: [N] | At-Risk: [N] | Blocked: [N] | Completed: [N]
-   [2–3 sentence narrative on overall trajectory]
-
-2. THIS WEEK'S CHANGES
-   [What moved since last report — new risks, resolved blockers, milestone shifts]
-
-3. RISKS REQUIRING ATTENTION
-   [Only what's new or escalated — don't re-list stable, tracked risks every week]
-
-4. DECISIONS NEEDED
-   [Only what requires this audience's authority — nothing operational]
-
-5. RECOMMENDED ACTIONS
-   P1 (this week) / P2 (this month) — Owner, Deadline
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Next report: [date]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATUS OVERVIEW 🟢/🟡/🔴 — On-Track / At-Risk / Blocked / Completed counts + 2–3 sentence narrative
+THIS WEEK'S CHANGES
+RISKS REQUIRING ATTENTION (mitigation required per item)
+DECISIONS NEEDED (VP authority only)
+RECOMMENDED ACTIONS — P1 / P2 with owner and deadline
 ```
 
-For portfolio-level (multi-initiative) reports with full ROI/value-at-risk modeling and
-board-deck-length detail, use `ai-program-manager`'s `references/executive-intelligence.md` —
-this skill's template above is intentionally the lighter, faster, single-report version.
+For portfolio-level ROI modeling and governance depth, use `executive-intelligence.md`.
 
 ## Delivery
-Draft on `{{report_cadence_day}}` before `{{report_cadence_time}}`. Offer both a chat-ready
-version and, if requested, hand off to a document/PDF-producing workflow for a shareable file —
-PDF export is intentionally out of scope for this skill (see the separate PDF-generation skill,
-in progress) and shouldn't be improvised here beyond plain text/markdown output.
+Draft on `{{report_cadence_day}}` before `{{report_cadence_time}}`. For **C-suite briefs**, output Markdown per
+`c-suite-executive-brief.md`, then PDF via `scripts/render-executive-brief-pdf.ps1` (uses `executive-brief-pdf.css`).
+Offer chat-ready Markdown first; generate PDF when the user asks for a shareable file.

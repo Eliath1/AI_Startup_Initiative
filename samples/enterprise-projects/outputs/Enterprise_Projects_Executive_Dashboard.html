@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enterprise Projects Portfolio — Executive Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root, [data-theme="light"] {
+      --font-sans: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      --color-bg: #f6f7f9;
+      --color-surface: #ffffff;
+      --color-text: #111827;
+      --color-muted: #6b7280;
+      --color-border: #e5e7eb;
+      --color-primary: #2563eb;
+      --color-success: #059669;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+      --radius: 10px;
+      --shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      --space-section: 24px;
+      --space-gutter: 16px;
+      --grid-cols: 12;
+    }
+    [data-theme="dark"] {
+      --color-bg: #0f1419;
+      --color-surface: #1a2332;
+      --color-text: #f3f4f6;
+      --color-muted: #9ca3af;
+      --color-border: #2d3748;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font-sans); font-size: 15px; line-height: 1.5; color: var(--color-text); background: var(--color-bg); }
+    .dashboard { max-width: 1400px; margin: 0 auto; padding: 20px var(--space-gutter) 40px; }
+    .dashboard-header { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: var(--space-section); }
+    .dashboard-header h1 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); margin: 0 0 4px; font-weight: 700; }
+    .dashboard-header .meta { color: var(--color-muted); font-size: 0.8125rem; margin: 0; }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .btn-theme {
+      border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text);
+      border-radius: 8px; padding: 8px 12px; font-size: 0.8125rem; cursor: pointer; font-weight: 500;
+    }
+    .btn-theme:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(var(--grid-cols), 1fr); gap: var(--space-gutter); }
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+    @media (max-width: 1024px) {
+      :root { --grid-cols: 6; }
+      .span-3, .span-4 { grid-column: span 3; }
+      .span-6, .span-8 { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      :root { --grid-cols: 1; }
+      .span-3, .span-4, .span-6, .span-8, .span-12 { grid-column: span 1; }
+    }
+    .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+    .card h2 { font-size: 1.05rem; margin: 0 0 12px; font-weight: 600; }
+    .card h3 { font-size: 0.8125rem; margin: 0 0 6px; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.02em; }
+    .exec-summary { border-left: 4px solid var(--color-success); }
+    .exec-summary.status--watch { border-left-color: var(--color-warning); }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.8125rem;
+      margin-bottom: 8px; padding: 4px 10px; border-radius: 999px; background: #ecfdf5; color: #065f46;
+    }
+    .status-pill--watch { background: #fffbeb; color: #92400e; }
+    [data-theme="dark"] .status-pill { background: #064e3b; color: #a7f3d0; }
+    [data-theme="dark"] .status-pill--watch { background: #78350f; color: #fde68a; }
+    .alert-banner {
+      display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--radius);
+      background: #fff7ed; border: 1px solid #fed7aa; font-size: 0.875rem; margin-bottom: 0;
+    }
+    [data-theme="dark"] .alert-banner { background: #431407; border-color: #9a3412; }
+    .alert-banner strong { color: var(--color-warning); }
+    .kpi-card .metric { font-size: clamp(1.35rem, 2.5vw, 1.85rem); font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .kpi-card .sub { font-size: 0.8125rem; color: var(--color-muted); margin-top: 6px; }
+    .kpi-card .delta { font-size: 0.8125rem; font-weight: 600; margin-top: 4px; }
+    .delta--up { color: var(--color-success); }
+    .delta--warn { color: var(--color-warning); }
+    .chart-card__body { position: relative; width: 100%; aspect-ratio: 2 / 1; min-height: 180px; max-height: 280px; }
+    .chart-mount { width: 100% !important; height: 100% !important; }
+    .split-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 640px) { .split-panels { grid-template-columns: 1fr; } }
+    .insights ul, .recs ul { margin: 0; padding-left: 1.2rem; font-size: 0.9rem; }
+    .insights li, .recs li { margin-bottom: 6px; }
+    .risk-row, .dec-row {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 8px; padding: 10px 0;
+      border-bottom: 1px solid var(--color-border); font-size: 0.875rem;
+    }
+    .risk-row:last-child, .dec-row:last-child { border-bottom: none; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.6875rem; font-weight: 600; }
+    .badge--ok { background: #d1fae5; color: #065f46; }
+    .badge--warn { background: #fef3c7; color: #92400e; }
+    .badge--crit { background: #fee2e2; color: #991b1b; }
+    [data-theme="dark"] .badge--ok { background: #064e3b; color: #a7f3d0; }
+    [data-theme="dark"] .badge--warn { background: #78350f; color: #fde68a; }
+    .table-wrap { overflow-x: auto; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+    table.data-table th, table.data-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--color-border); }
+    table.data-table th { font-weight: 600; color: var(--color-muted); background: var(--color-surface); }
+    table.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    footer.dashboard-footer { margin-top: 24px; font-size: 0.75rem; color: var(--color-muted); }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <div>
+        <p class="meta">Enterprise Portfolio</p>
+        <h1>Enterprise Projects — Executive Dashboard</h1>
+        <p class="meta">Jan 2025 – Mar 2026 · Updated 2026-07-30</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn-theme" id="theme-toggle" aria-label="Toggle light or dark theme">Theme</button>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="card exec-summary status--watch span-12" aria-labelledby="exec-summary-heading">
+        <div class="status-pill status-pill--watch" id="exec-summary-heading">
+          <span aria-hidden="true">🟡</span> On track with controls attention
+        </div>
+        <p style="margin:0 0 10px;font-size:0.9375rem;">
+          <strong>Portfolio delivers commercial and AI value:</strong> $66.6M CRM revenue on 95 units,
+          $7.7M AI/IoT realized value against $4.95M tech CapEx. October 2025 was the revenue peak ($13.5M).
+          <strong>Two elevated risks</strong> need CFO action: Jira vs CRM October revenue mismatch and PRJ-001 retainage concentration ($29.8M).
+        </p>
+      </section>
+
+      <section class="card alert-banner span-12" role="alert">
+        <span aria-hidden="true">⚠️</span>
+        <div>
+          <strong>Critical alert — data integrity:</strong> October 2025 shows $8.95M in Jira vs $13.5M in CRM for the same 20 closings.
+          Executive KPIs must not ship until Finance reconciles (target: D-1 dashboard by Aug 15, 2026).
+        </div>
+      </section>
+
+      <article class="card kpi-card span-3">
+        <h3>CRM gross revenue</h3>
+        <div class="metric">$66.6M</div>
+        <div class="delta delta--up" aria-label="95 units closed">▲ 95 units closed</div>
+        <p class="sub">Peak Oct 2025: $13.5M (20 units)</p>
+      </article>
+      <article class="card kpi-card span-3">
+        <h3>Approved CapEx</h3>
+        <div class="metric">$41.2M</div>
+        <div class="delta delta--warn" aria-label="Retainage concentration">⚠ 82% one retainage line</div>
+        <p class="sub">PRJ-001 Apex Tower: $36.3M</p>
+      </article>
+      <article class="card kpi-card span-3">
+        <h3>AI + IoT value</h3>
+        <div class="metric">$7.7M</div>
+        <div class="delta delta--up">▲ vs $4.95M tech spend</div>
+        <p class="sub">PRJ-002 $4.9M · PRJ-003 $2.9M</p>
+      </article>
+      <article class="card kpi-card span-3">
+        <h3>AI program ROI (logged)</h3>
+        <div class="metric">~128%</div>
+        <div class="delta delta--up">▲ $2.15M invested</div>
+        <p class="sub">Subcontractor predictor in production</p>
+      </article>
+
+      <section class="card chart-card span-8">
+        <h2>CRM revenue trend (monthly)</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-revenue" class="chart-mount" role="img" aria-label="Monthly CRM revenue from May 2025 through March 2026"></canvas>
+        </div>
+      </section>
+      <section class="card chart-card span-4">
+        <h2>Revenue by unit type</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-units" class="chart-mount" role="img" aria-label="Share of revenue by unit type"></canvas>
+        </div>
+      </section>
+
+      <section class="card chart-card span-6">
+        <h2>CapEx by program</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-capex" class="chart-mount" role="img" aria-label="Capital expenditure by project"></canvas>
+        </div>
+      </section>
+      <section class="card chart-card span-6">
+        <h2>Realized value — AI &amp; IoT</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-value" class="chart-mount" role="img" aria-label="Realized value by AI and IoT programs"></canvas>
+        </div>
+      </section>
+
+      <section class="card insights span-6">
+        <h2>Executive insights</h2>
+        <ul>
+          <li><strong>2BR Premium</strong> drives 44% of revenue ($29.3M) — prioritize inventory and campaign playbook while sell-through is strong.</li>
+          <li><strong>March 2026</strong> AI peak: $1.2M subcontractor cost avoidance (94.2% model accuracy, AIAG-301).</li>
+          <li><strong>Nov 2025</strong> IoT peak: $1.25M HVAC utility savings; 28.4% energy reduction validated (IOTP-405).</li>
+        </ul>
+      </section>
+      <section class="card recs span-6">
+        <h2>Recommended actions</h2>
+        <ul>
+          <li><strong>P1:</strong> Approve single source of truth dashboard (CapEx + CRM + AI + Jira) — CFO + CIO, Aug 15.</li>
+          <li><strong>P1:</strong> Segment GC retainage in external reporting — CFO, Aug 30.</li>
+          <li><strong>P2:</strong> Scale AIAG-301 to monthly procurement audit — CPO, Sep 1.</li>
+        </ul>
+      </section>
+
+      <section class="card span-6">
+        <h2>Risk &amp; mitigation</h2>
+        <div class="risk-row"><div><span class="badge badge--warn">Elevated</span> Oct revenue mismatch</div><div>Reconcile Jira custom field vs CRM; fix mapping before board metrics.</div></div>
+        <div class="risk-row"><div><span class="badge badge--warn">Elevated</span> CapEx concentration</div><div>Report $29.8M retainage (GL-5000) separately from trade packages (~$6.5M).</div></div>
+        <div class="risk-row"><div><span class="badge badge--warn">Managed</span> AI value definitions</div><div>Align audit ($4.32M) and ledger ($4.87M) to SAP / CFO sign-off only.</div></div>
+        <div class="risk-row"><div><span class="badge badge--ok">Managed</span> Sales month lag</div><div>Standardize Sale_Date vs Sales_Month for executive reporting.</div></div>
+      </section>
+
+      <section class="card span-6">
+        <h2>Decisions required</h2>
+        <div class="dec-row"><div><strong>D-1</strong> SSOT dashboard</div><div>Approve build + reconciliation alerts · CFO + CIO · by Aug 15</div></div>
+        <div class="dec-row"><div><strong>D-2</strong> Retainage reporting</div><div>Separate from trade CapEx until recognition confirmed · CFO · Aug 30</div></div>
+        <div class="dec-row"><div><strong>D-3</strong> Scale AIAG-301</div><div>Enterprise monthly procurement review · CPO · Sep 1</div></div>
+      </section>
+
+      <section class="card span-12">
+        <h2>Program scorecard</h2>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Program</th>
+                <th scope="col">CapEx</th>
+                <th scope="col">Value / revenue</th>
+                <th scope="col">Delivery</th>
+                <th scope="col">Signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PRJ-001 Apex Tower</td>
+                <td class="num">$36.3M</td>
+                <td class="num">$66.6M CRM</td>
+                <td>APEX-101 / APEX-204 closed</td>
+                <td><span class="badge badge--warn">Monitor CapEx</span></td>
+              </tr>
+              <tr>
+                <td>PRJ-002 AI Ops Agent</td>
+                <td class="num">$2.15M</td>
+                <td class="num">$4.9M realized</td>
+                <td>AIAG-301 in production</td>
+                <td><span class="badge badge--ok">Value on track</span></td>
+              </tr>
+              <tr>
+                <td>PRJ-003 IoT Engine</td>
+                <td class="num">$2.8M</td>
+                <td class="num">$2.9M realized</td>
+                <td>IOTP-405 verified</td>
+                <td><span class="badge badge--ok">Savings validated</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="dashboard-footer">
+      Sources: Jira_CRM_Raw_Project_Database.md · Enterprise_Projects_Transactional_Database.xlsx (CapEx, CRM, AI value logs).
+      Rendered with executive-dashboard-rendering skill v1.0.
+    </footer>
+  </div>
+
+  <script>
+    const fmtM = (n) => '$' + (n / 1e6).toFixed(1) + 'M';
+    const gridColor = () => getComputedStyle(document.documentElement).getPropertyValue('--color-border').trim() || '#e5e7eb';
+    const textColor = () => getComputedStyle(document.documentElement).getPropertyValue('--color-muted').trim() || '#6b7280';
+
+    const months = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+    const revenue = [3.86, 6.01, 6.24, 6.64, 9.04, 13.55, 5.59, 2.8, 3.23, 5.39, 4.31];
+    const units = [6, 9, 9, 11, 13, 20, 8, 4, 4, 6, 5];
+
+    const chartDefaults = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: textColor, boxWidth: 12, font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+        y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } }
+      }
+    };
+
+    new Chart(document.getElementById('chart-revenue'), {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: 'Revenue ($M)',
+            data: revenue,
+            backgroundColor: 'rgba(37, 99, 235, 0.75)',
+            borderRadius: 6,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Units closed',
+            data: units,
+            type: 'line',
+            borderColor: '#059669',
+            backgroundColor: 'transparent',
+            tension: 0.3,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        ...chartDefaults,
+        scales: {
+          x: chartDefaults.scales.x,
+          y: { ...chartDefaults.scales.y, title: { display: true, text: '$M', color: textColor } },
+          y1: {
+            position: 'right',
+            ticks: { color: textColor, font: { size: 10 } },
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: 'Units', color: textColor }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('chart-units'), {
+      type: 'doughnut',
+      data: {
+        labels: ['2BR Premium', '3BR Penthouse', '1BR Luxury'],
+        datasets: [{
+          data: [29.25, 27, 10.375],
+          backgroundColor: ['#2563eb', '#0ea5e9', '#64748b']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: textColor, font: { size: 10 } } },
+          tooltip: { callbacks: { label: (c) => c.label + ': ' + fmtM(c.raw * 1e6) } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('chart-capex'), {
+      type: 'bar',
+      data: {
+        labels: ['Apex Tower', 'AI Ops Agent', 'IoT Engine'],
+        datasets: [{
+          label: 'CapEx ($M)',
+          data: [36.25, 2.15, 2.8],
+          backgroundColor: ['#d97706', '#2563eb', '#059669'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        ...chartDefaults,
+        plugins: { ...chartDefaults.plugins, legend: { display: false } }
+      }
+    });
+
+    new Chart(document.getElementById('chart-value'), {
+      type: 'bar',
+      data: {
+        labels: ['PRJ-002 AI', 'PRJ-003 IoT'],
+        datasets: [{
+          label: 'Realized ($M)',
+          data: [4.87, 2.85],
+          backgroundColor: '#059669',
+          borderRadius: 6
+        }]
+      },
+      options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: false } } }
+    });
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      Chart.helpers.each(Chart.instances, (c) => c.update());
+    });
+  </script>
+</body>
+</html>

@@ -100,5 +100,5 @@ this skill's template above is intentionally the lighter, faster, single-report 
 ## Delivery
 Draft on `{{report_cadence_day}}` before `{{report_cadence_time}}`. Offer both a chat-ready
 version and, if requested, hand off to a document/PDF-producing workflow for a shareable file —
-PDF export is intentionally out of scope for this skill (see the separate PDF-generation skill,
-in progress) and shouldn't be improvised here beyond plain text/markdown output.
+PDF export is intentionally out of scope for this skill (hand off to `pdf-generation`) and
+shouldn't be improvised here beyond plain text/markdown output.

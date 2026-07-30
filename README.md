@@ -17,10 +17,17 @@ requires a separate agreement with the owner.
 | `ai-weekly-executive-reports` | Standalone recurring status reporting, source-agnostic |
 | `knowledge-graphs-builder` | Structures portfolio data (initiatives, risks, decisions, compliance) into a queryable graph |
 | `connector-readiness-assessor` | Assesses and sequences which tool integrations a customer needs |
+| `executive-dashboard-rendering` | HTML executive BI dashboards (KPIs, charts, risks, decisions) |
+| `pdf-generation` | Themed PDF reports from structured content |
 
 Each skill's `SKILL.md` has a `Configuration` block at the top — fill in your organization's
 specifics there before use. Deeper material lives in each skill's `references/` folder, loaded
 only when needed.
+
+### Sample deliverable (Enterprise Projects)
+
+See [`samples/enterprise-projects/README.md`](./samples/enterprise-projects/README.md) for
+benchmark inputs (Jira/CRM/XLSX), C-suite brief, PDF, and executive dashboard HTML.
 
 ---
 

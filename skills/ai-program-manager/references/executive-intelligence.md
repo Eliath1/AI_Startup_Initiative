@@ -4,6 +4,19 @@
 
 ---
 
+## C-Suite brief vs this document
+
+| Output | When | Template |
+|--------|------|----------|
+| **C-Suite Executive Brief** (1–2 pages) | VP/C-staff decision memo; portfolio snapshot | `c-suite-executive-brief.md` + `executive-brief-pdf.css` |
+| **Portfolio executive summary** (board / steering pack) | Full ROI, governance, alignment | This file — 8-section structure below |
+| **Operational / PM report** | Middle management, delivery leads | Issue-level status — not an executive brief |
+
+For **Achievements → Business Value → Risk & Mitigation → Decisions Required**, always use
+`c-suite-executive-brief.md`. Do not paste the 8-section format into a 1-page PDF.
+
+---
+
 ## What Executives Actually Need to Know
 
 C-suite and VP-level executives arrive at a portfolio review with four unstated questions:

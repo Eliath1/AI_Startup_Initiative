@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Enterprise Projects Executive Analysis</title>
+<style>
+  @page { size: letter; margin: 0.75in; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.45; color: #1a1a1a; max-width: 7.5in; margin: 0 auto; }
+  h1 { font-size: 22pt; border-bottom: 2px solid #2563eb; padding-bottom: 0.25em; margin-top: 0; }
+  h2 { font-size: 14pt; color: #1e40af; margin-top: 1.25em; page-break-after: avoid; }
+  h3 { font-size: 12pt; margin-top: 1em; page-break-after: avoid; }
+  p { margin: 0.5em 0; }
+  ul, ol { margin: 0.4em 0 0.8em 1.2em; }
+  li { margin: 0.25em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 0.75em 0 1em; font-size: 10pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #eff6ff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.25em 0; }
+  code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f1f5f9; padding: 1px 4px; border-radius: 3px; }
+  .muted { color: #64748b; font-size: 10pt; }
+  strong { color: #0f172a; }
+</style>
+</head>
+<body>
+<h1>Enterprise Projects Portfolio — Executive Analysis</h1>
+<p><strong>Date:</strong> July 30, 2026  </p>
+<p><strong>Reporting period:</strong> Jan 2025 – Mar 2026 (data export through Mar 31, 2026)  </p>
+<p><strong>Audience:</strong> Executive leadership / delivery management  </p>
+<p class="muted"><em><em>Sources analyzed:</em></em></p>
+<ul>
+<li><code>Jira_CRM_Raw_Project_Database.md</code> (Jira export, worklogs, AI audit notes, Git activity)</li>
+<li><code>Enterprise_Projects_Transactional_Database.xlsx</code> (<code>Raw_CapEx_Ledger</code>, <code>Raw_CRM_Units_Sales</code>, <code>Raw_AI_Value_Logs</code>)</li>
+</ul>
+<p><strong>Method:</strong> Structured aggregation of transactional ledgers cross-walked to Jira issue keys and narrative logs (Atlassian <em>generate-status-report</em> executive format).</p>
+<hr/>
+<h2>Executive Summary</h2>
+<p>The portfolio spans three linked programs—<strong>Apex Tower (PRJ-001)</strong>, <strong>Enterprise AI Ops Agent (PRJ-002)</strong>, and <strong>Smart Building IoT Engine (PRJ-003)</strong>—with <strong>$41.2M</strong> recorded CapEx, <strong>$66.6M</strong> gross CRM closings on <strong>95 units</strong>, and <strong>$7.7M</strong> quantified AI/IoT value realization in operational logs. Delivery signals are predominantly positive: construction and sales milestones are <strong>closed or in production</strong>, and AI capabilities show measurable cost avoidance and energy savings.</p>
+<p>The main leadership concern is <strong>financial reconciliation across systems</strong>: October 2025 sales revenue differs between Jira/worklog figures (<strong>$8.95M</strong>) and unit-level CRM rollups (<strong>$13.55M</strong> for the same 20 closings). CapEx is <strong>dominated by a single GC retainage line ($29.8M)</strong>, which warrants CFO/controls review before using totals for margin or ROI narratives.</p>
+<hr/>
+<h2>Overall Portfolio Status</h2>
+<table><thead><tr><th>Program</th><th>Jira keys</th><th>Operational status</th><th>Executive signal</th></tr></thead><tbody>
+<tr><td>Apex Tower High-Rise</td><td>APEX</td><td>Construction epic closed; CRM campaign closed</td><td>On track commercially; CapEx concentration risk</td></tr>
+<tr><td>Enterprise AI Ops Agent</td><td>AIAG</td><td>Feature <strong>In Production</strong></td><td>Strong value story; validate cumulative ROI vs ledger</td></tr>
+<tr><td>Smart Building IoT Engine</td><td>IOTP</td><td>Feature <strong>Verified</strong></td><td>Proven savings; peak month Nov 2025</td></tr>
+</tbody></table>
+<p><strong>Overall:</strong> On track for delivery and value realization, with <strong>data-quality and controls</strong> items to resolve before board-level ROI reporting.</p>
+<hr/>
+<h2>Key Metrics (Consolidated)</h2>
+<table><thead><tr><th>Metric</th><th>Value</th><th>Source</th></tr></thead><tbody>
+<tr><td>Total CapEx (approved transactions)</td><td><strong>$41,200,000</strong></td><td>Raw_CapEx_Ledger</td></tr>
+<tr><td>CapEx — PRJ-001 Apex Tower</td><td>$36,250,000 (8 txns)</td><td>Raw_CapEx_Ledger</td></tr>
+<tr><td>CapEx — PRJ-002 AI Ops Agent</td><td>$2,150,000 (4 txns)</td><td>Raw_CapEx_Ledger</td></tr>
+<tr><td>CapEx — PRJ-003 IoT Engine</td><td>$2,800,000 (3 txns)</td><td>Raw_CapEx_Ledger</td></tr>
+<tr><td>CRM units closed</td><td><strong>95</strong></td><td>Raw_CRM_Units_Sales</td></tr>
+<tr><td>CRM gross sales revenue</td><td><strong>$66,625,000</strong></td><td>Raw_CRM_Units_Sales</td></tr>
+<tr><td>Best sales month (revenue)</td><td><strong>Oct 2025 — $13,545,000</strong> (20 units)</td><td>Raw_CRM_Units_Sales</td></tr>
+<tr><td>Top product (revenue)</td><td><strong>2BR Premium</strong> — 45 units, $29.25M</td><td>Raw_CRM_Units_Sales</td></tr>
+<tr><td>AI/IoT realized value (ledger)</td><td><strong>$7,720,000</strong></td><td>Raw_AI_Value_Logs</td></tr>
+<tr><td>Jira issues in export sample</td><td>4 (2 Closed, 1 In Production, 1 Verified)</td><td>Jira JSON dump</td></tr>
+</tbody></table>
+<hr/>
+<h2>Highlights</h2>
+<ol>
+<li><strong>Sales acceleration in Q4 2025:</strong> Monthly closings rose from 6 units (May 2025) to a peak of <strong>20 units in Oct 2025</strong>, with revenue scaling to <strong>$13.55M</strong> in that month—more than 3× May’s $3.86M run rate.</li>
+</ol>
+<ol>
+<li><strong>2BR Premium is the revenue engine:</strong> <strong>45 of 95</strong> closed units (47%) generate <strong>$29.25M</strong> (44% of total CRM revenue), aligning with Jira/worklog narrative that this floor plan outperforms other layouts.</li>
+</ol>
+<ol>
+<li><strong>AI Ops Agent delivers documented cost avoidance:</strong> Q1 2026 audit cites <strong>$1.2M</strong> March cost avoidance from subcontractor over-billing detection; ledger peak month <strong>Mar 2026</strong> shows <strong>$1.2M</strong> realized for the Subcontractor Risk & Variance Predictor (LOG-106), with <strong>94.2%</strong> model accuracy in Jira (AIAG-301).</li>
+</ol>
+<ol>
+<li><strong>IoT program proves operational savings:</strong> HVAC AI Optimization shows <strong>28.4%</strong> energy reduction in Jira metrics; ledger peak <strong>Nov 2025</strong> records <strong>$1.25M</strong> energy utility savings (LOG-203), consistent with IOTP-405 “peak month” metadata.</li>
+</ol>
+<ol>
+<li><strong>Analytics pipeline intent is clear:</strong> Git commit (Mar 18, 2026) targets aggregation across <strong>Raw_CapEx_Ledger</strong> and <strong>Raw_CRM_Units_Sales</strong> with CFO GL-5000 validation—appropriate foundation for an agentic executive dashboard.</li>
+</ol>
+<hr/>
+<h2>Program Deep Dives</h2>
+<h3>PRJ-001 — Apex Tower High-Rise (APEX)</h3>
+<p><strong>Delivery:</strong> Epic APEX-101 (foundation/rebar) <strong>Closed</strong> Mar 15, 2025; actual cost <strong>$1,281,500</strong> matches combined Cemex/Nucor ledger lines (TXN-1001 + TXN-1002). Story APEX-204 (Oct CRM campaign) <strong>Closed</strong> Oct 31, 2025.</p>
+<p><strong>Commercial:</strong> CRM shows steady monthly absorption through Mar 2026. Unit mix leadership: <strong>2BR Premium</strong> ($650K list, full price on closed deals) drives volume and revenue.</p>
+<p><strong>CapEx structure:</strong> Excluding the <strong>Turner Construction retainage</strong> line (TXN-1008, <strong>$29,799,975</strong>, GL-5000), discrete trade packages total <strong>~$6.45M</strong> (concrete, steel, glazing, interiors, MEP). Executives should treat <strong>$36.25M</strong> PRJ-001 total as <strong>retainage-inclusive</strong> until finance confirms recognition timing.</p>
+<p><strong>CRM vs Jira revenue (Oct 2025):</strong> Worklog and APEX-204 cite <strong>$8.95M</strong> for 20 October closings; unit-level CRM sums to <strong>$13.545M</strong> for the same month/count. <strong>Action:</strong> Reconcile campaign custom field vs CRM transaction grain before using Jira for revenue KPIs.</p>
+<hr/>
+<h3>PRJ-002 — Enterprise AI Ops Agent (AIAG)</h3>
+<p><strong>Delivery:</strong> AIAG-301 <strong>In Production</strong>; investment <strong>$820K</strong> on fine-tuning (ledger TXN-2002 aligns); total program CapEx <strong>$2.15M</strong> (GPU, engineering, integration, change management).</p>
+<p><strong>Value:</strong> Narrative audit (Mar 15, 2026): <strong>$2.15M</strong> invested vs <strong>$4.32M</strong> value created (<strong>100.9% net ROI</strong>). <strong>Raw_AI_Value_Logs</strong> sum <strong>$4.87M</strong> realized for PRJ-002—directionally consistent but <strong>~$550K higher</strong> than the audit headline; reconcile definitions (gross vs net, in-flight vs validated).</p>
+<p><strong>Engines:</strong> Subcontractor Risk & Variance Predictor and Automated Material Variance Engine account for all PRJ-002 log entries; <strong>Mar 2026</strong> is the peak cost-avoidance month (<strong>$1.2M</strong>).</p>
+<hr/>
+<h3>PRJ-003 — Smart Building IoT Engine (IOTP)</h3>
+<p><strong>Delivery:</strong> IOTP-405 <strong>Verified</strong>; hardware/software/field labor CapEx <strong>$2.8M</strong> (Honeywell, PTC ThingWorx, Rosendin).</p>
+<p><strong>Value:</strong> Jira cites <strong>$1.85M</strong> value generated with <strong>Nov 2025</strong> peak; ledger shows <strong>$2.85M</strong> cumulative realized (HVAC + predictive maintenance), peak single month <strong>Nov 2025 — $1.25M</strong> HVAC savings.</p>
+<hr/>
+<h2>Jira Delivery Snapshot</h2>
+<table><thead><tr><th>Key</th><th>Type</th><th>Status</th><th>Business note</th></tr></thead><tbody>
+<tr><td>APEX-101</td><td>Epic</td><td>Closed</td><td>Foundation CapEx complete</td></tr>
+<tr><td>APEX-204</td><td>Story</td><td>Closed</td><td>Oct CRM campaign; revenue field needs CRM tie-out</td></tr>
+<tr><td>AIAG-301</td><td>Feature</td><td>In Production</td><td>Risk predictor live; Q1 2026 peak impact</td></tr>
+<tr><td>IOTP-405</td><td>Feature</td><td>Verified</td><td>HVAC optimization validated</td></tr>
+</tbody></table>
+<p><strong>Blocked / at-risk issues in sample:</strong> None recorded. Risk is <strong>financial data alignment</strong>, not open delivery blockers.</p>
+<hr/>
+<h2>Critical Data & Controls Items</h2>
+<table><thead><tr><th>Item</th><th>Impact</th><th>Recommended action</th></tr></thead><tbody>
+<tr><td>Oct 2025 revenue mismatch (Jira $8.95M vs CRM $13.55M)</td><td>Executive KPI and campaign ROI reporting</td><td>Finance + CRM ops reconcile; fix Jira custom field or mapping</td></tr>
+<tr><td>PRJ-001 CapEx skew (73% single retainage txn)</td><td>Misleading spend dashboards if unsegmented</td><td>Report retainage separately; tie to GL-5000 series</td></tr>
+<tr><td>AI value: audit $4.32M vs ledger $4.87M (PRJ-002)</td><td>ROI narrative variance</td><td>Align “value created” definition with SAP/CFO sign-off logs</td></tr>
+<tr><td>Sales_Month vs Sale_Date lag</td><td>Some units sold in one calendar month tagged to another reporting month</td><td>Standardize reporting dimension for “best month” metrics</td></tr>
+</tbody></table>
+<hr/>
+<h2>Upcoming Priorities</h2>
+<ol>
+<li><strong>Publish a single source of truth dashboard</strong> aggregating CapEx, CRM, and AI value logs (already scoped in Git commit c8f921a), with automated reconciliation checks against Jira custom fields.</li>
+</ol>
+<ol>
+<li><strong>Double down on 2BR Premium inventory and campaign playbooks</strong> while sell-through is strong; monitor penthouse velocity (25 units, $27M) for margin mix.</li>
+</ol>
+<ol>
+<li><strong>Scale AIAG-301</strong> beyond March peak: institutionalize subcontractor anomaly review with procurement and audit (SAP logs #882, #901, CFO sign-off on LOG-106).</li>
+</ol>
+<ol>
+<li><strong>Extend IOTP savings</strong> into 2026 operating budget baselines using BMS/utility verification sources already cited in logs.</li>
+</ol>
+<ol>
+<li><strong>Executive readout cadence:</strong> Monthly portfolio brief using CRM month rollup + AI value logs + Jira status (Closed / In Production / Verified counts).</li>
+</ol>
+<hr/>
+<h2>Appendix — CRM Monthly Revenue Trend</h2>
+<table><thead><tr><th>Sales month</th><th>Units closed</th><th>Revenue (USD)</th></tr></thead><tbody>
+<tr><td>May 2025</td><td>6</td><td>3,860,000</td></tr>
+<tr><td>Jun 2025</td><td>9</td><td>6,005,000</td></tr>
+<tr><td>Jul 2025</td><td>9</td><td>6,240,000</td></tr>
+<tr><td>Aug 2025</td><td>11</td><td>6,640,000</td></tr>
+<tr><td>Sep 2025</td><td>13</td><td>9,035,000</td></tr>
+<tr><td><strong>Oct 2025</strong></td><td><strong>20</strong></td><td><strong>13,545,000</strong></td></tr>
+<tr><td>Nov 2025</td><td>8</td><td>5,590,000</td></tr>
+<tr><td>Dec 2025</td><td>4</td><td>2,795,000</td></tr>
+<tr><td>Jan 2026</td><td>4</td><td>3,225,000</td></tr>
+<tr><td>Feb 2026</td><td>6</td><td>5,385,000</td></tr>
+<tr><td>Mar 2026</td><td>5</td><td>4,305,000</td></tr>
+</tbody></table>
+<hr/>
+<h2>Appendix — CapEx by Project (Ledger)</h2>
+<table><thead><tr><th>Project</th><th>Transactions</th><th>Total USD</th></tr></thead><tbody>
+<tr><td>PRJ-001 Apex Tower</td><td>8</td><td>36,250,000</td></tr>
+<tr><td>PRJ-002 AI Ops Agent</td><td>4</td><td>2,150,000</td></tr>
+<tr><td>PRJ-003 IoT Engine</td><td>3</td><td>2,800,000</td></tr>
+</tbody></table>
+<hr/>
+<p class="muted"><em>Analysis generated from local attachments; no live Jira/Confluence query was required. For recurring publication, consider pushing this summary to Confluence after reconciliation items are closed.</em></p>
+</body>
+</html>
