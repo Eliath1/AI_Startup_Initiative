@@ -1,0 +1,97 @@
+---
+description: Assesses which tool connectors a customer needs, in what order to connect them, and guides configuration with least-privilege permissions. Use when onboarding a new customer, asking "what do we need to connect," setting up integrations, or troubleshooting a missing/broken connector. Covers Atlassian, Notion, Slack, Microsoft 365, Google Workspace, GitHub, Asana, Linear, ChatGPT/enterprise AI tools, Cursor, Copilot, Figma, and other common tools.
+globs:
+alwaysApply: false
+---
+
+# connector-readiness-assessor
+
+# Connector Readiness Assessor
+
+### Configuration
+```yaml
+organization_name: "{{ORGANIZATION_NAME}}"
+target_skills: {{TARGET_SKILLS}}    # which skills from this suite the customer is deploying — determines which connectors actually matter
+```
+
+---
+
+## Purpose
+
+Turns "here's a governance framework" into "here's a working system in your environment" — the
+step that actually determines whether a customer gets value in week one or spends a month on
+internal IT tickets first. This skill exists because connector setup is consistently the real
+bottleneck in AI tooling adoption, not the AI capability itself.
+
+---
+
+## Flow
+
+### 1. Discover
+Ask the customer what they currently use, grouped by function:
+- Project management / ticketing (Jira, Asana, Linear, Trello, monday.com)
+- Docs / knowledge base (Confluence, Notion, SharePoint, Google Docs)
+- Chat / comms (Slack, Microsoft Teams)
+- Dev tools (GitHub, GitLab, Bitbucket, Cursor, Copilot)
+- Calendar / email (Outlook, Google Workspace)
+- Design (Figma)
+- Existing AI tooling (ChatGPT Enterprise, Claude, Copilot)
+
+### 2. Map to Need
+Not every tool needs to be connected — only what the deployed skills actually use. Cross-reference
+`target_skills` against the capability matrix (`references/connector-capability-matrix.md`):
+- `ai-program-manager` needs: PM/ticketing tool (read/write), docs tool (read/write)
+- `ai-weekly-executive-reports` needs: PM/ticketing tool (read-only sufficient)
+- `knowledge-graphs-builder` needs: whatever holds the source documents (docs, tickets, chat exports)
+- `connector-readiness-assessor` itself needs: none — it's the planning step before any are connected
+
+### 3. Gap-Check
+For each declared tool, confirm connector availability. If unavailable, note the fallback:
+manual export/import, generic webhook/API integration, or "not yet supported — flag for roadmap."
+
+### 4. Sequence
+Connection order matters — recommend:
+1. **PM/ticketing + docs first** — these are what `ai-program-manager` and reporting skills
+   depend on most; nothing else is useful until this exists
+2. **Chat/comms second** — useful for context and notifications, not blocking
+3. **Dev tools third** — relevant mainly if the customer's initiatives are engineering-heavy
+4. **Design tools last** — narrowest use case among this skill set
+
+### 5. Guide
+Provide step-by-step connection instructions per tool (see matrix) plus a **least-privilege
+permissions checklist** — request read-only access wherever write access isn't actually needed,
+consistent with the IAM principles in `ai-program-manager`'s compliance reference. Never request
+broader scopes "in case they're needed later" — that's the opposite of least-privilege and
+undermines the security posture this whole suite is meant to model.
+
+---
+
+## Output Format
+
+```
+CONNECTOR READINESS ASSESSMENT — [Customer Name]
+
+Deploying: [list of target skills]
+
+┌─────────────────────────────────────────────────────────┐
+│ Tool          Currently Used   Connector Status   Priority │
+│ Jira          Yes              Available          1        │
+│ Confluence    Yes              Available          1        │
+│ Slack         Yes              Available          2        │
+│ Figma         No               N/A — not needed   —        │
+└─────────────────────────────────────────────────────────┘
+
+RECOMMENDED SEQUENCE:
+1. [Tool] — [why it's first] — [permissions needed]
+2. [Tool] — ...
+
+GAPS:
+[Any tool with no available connector — fallback recommendation]
+```
+
+Full tool-by-tool capability matrix and connection steps: `references/connector-capability-matrix.md`
+
+**Maintenance note**: connector ecosystems change frequently — this matrix has a shorter shelf
+life than the governance content in this suite and should be reviewed for accuracy each time it's used, not treated as permanently current.
+
+> This skill has additional reference files under `skills/connector-readiness-assessor/references/` — consult them when the task needs that depth (they are not inlined here to keep this rule lightweight).
